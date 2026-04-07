@@ -17,13 +17,13 @@ export const API_PATHS = {
     GET_DASHBOARD_DATA: "/api/v1/tasks/dashboard-data",
     GET_USER_DASHBOARD_DATA: "/api/v1/tasks/user-dashboard-data",
     GET_ALL_TASKS: "/api/v1/tasks",
-    GET_TASK_BY_ID: (taskId) => `/api/v1/task/${taskId}`,
+    GET_TASK_BY_ID: (taskId) => `/api/v1/tasks/${taskId}`,
     CREATE_TASK: "/api/v1/tasks",
-    UPDATE_TASK: (taskId) => `/api/v1/task/${taskId}`,
-    DELETE_TASK: (taskId) => `/api/v1/task/${taskId}`,
+    UPDATE_TASK: (taskId) => `/api/v1/tasks/${taskId}`,
+    DELETE_TASK: (taskId) => `/api/v1/tasks/${taskId}`,
 
-    UPDATE_TASK_STATUS: (taskId) => `/api/v1/task/${taskId}/status`,
-    UPDATE_TODO_CHECKLIST: (taskId) => `/api/v1/task/${taskId}/todo`,
+    UPDATE_TASK_STATUS: (taskId) => `/api/v1/tasks/${taskId}/status`,
+    UPDATE_TODO_CHECKLIST: (taskId) => `/api/v1/tasks/${taskId}/todo`,
   },
 
   REPORTS: {
