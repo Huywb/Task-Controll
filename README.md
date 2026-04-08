@@ -1,10 +1,10 @@
-# 🚀 Task-Controll - Hệ thống Quản lý Công việc Thông minh
+#  Task-Controll - Hệ thống Quản lý Công việc Thông minh
 
 **Task-Controll** là một ứng dụng quản lý công việc (Task Management) toàn diện, giúp người dùng và quản trị viên theo dõi, phân phối và báo cáo tiến độ công việc một cách trực quan thông qua các biểu đồ và giao diện hiện đại.
 
 ---
 
-## 🛠 Tech Stack
+##  Tech Stack
 
 ### **Frontend**
 * **Framework:** React.js
@@ -23,7 +23,7 @@
 
 ---
 
-## 📁 Cấu trúc Dự án
+##  Cấu trúc Dự án
 
 ```text
 Task-Controll
@@ -47,3 +47,50 @@ Task-Controll
 │   ├── routes           # Định nghĩa các API Endpoints
 │   ├── uploads          # Lưu trữ tệp tin đính kèm
 │   └── server.js        # File chạy server chính
+
+
+```
+## Screenshots
+Dashboard
+Hiển thị tổng quan phân bổ công việc và mức độ ưu tiên thông qua biểu đồ.
+![Dashboard](https://github.com/user-attachments/assets/bc27564c-22bc-401b-9445-f248c3c17a97)
+
+Quản lý Tác vụ
+Xem danh sách công việc với bộ lọc trạng thái thông minh.
+![Task Management](https://github.com/user-attachments/assets/3d5ac9f5-0c6c-4f77-8f3e-cc9d8f6faeaa)
+
+Tạo Công việc mới
+Hỗ trợ tạo task với checklist, mức độ ưu tiên, ngày hết hạn và tệp đính kèm.
+![Create Task](https://github.com/user-attachments/assets/77e7b11c-5f6b-4d60-a9b6-0c1c8d7f1c1c)
+
+Thành viên & Thống kê
+Xem danh sách đội ngũ và số liệu thống kê hiệu suất làm việc.
+![Report](https://github.com/user-attachments/assets/1c6bb1c2-5f5c-4f28-8fd9-8a51e4d4d13b)
+
+## Hướng dẫn Cài đặt
+
+  git clone [https://github.com/Huywb/Task-Controll.git](https://github.com/Huywb/Task-Controll.git)
+  
+## Client:
+  cd client
+  npm install
+  
+## Server:
+  cd ../server
+  npm install
+## Thiết lập biến môi trường (.env)
+  PORT=8000
+  MONGO_URL=your_mongodb_url
+  JWT_SECRET=your_secret_key
+  ADMIN_INVITE_TOKEN=4588944  # Key để chuyển đổi vai trò thành Admin
+  CLIENT_URL=http://localhost:5173
+
+## Kết quả đạt được (Key Learning Outcomes)
+- Thiết kế hệ thống RESTful API chuẩn.
+- Bảo mật và xác thực người dùng với JWT Authentication.
+- Thiết kế cấu trúc dữ liệu với MongoDB.
+- Trực quan hóa dữ liệu Dashboard với Recharts.
+- Xử lý tải lên tệp tin và xuất báo cáo công việc ra Excel.
+- Quản lý state hiệu quả bằng Zustand.
+- Xây dựng UI hiện đại, responsive với TailwindCSS.
+- Kiểm soát quyền truy cập dựa trên vai trò (Role-based access control).
