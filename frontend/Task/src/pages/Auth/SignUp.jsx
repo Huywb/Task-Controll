@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import { axiosIntance } from "../../utils/AxiosInstance";
 import { API_PATHS } from "../../utils/apiPath";
 import { uploadImage } from "../../utils/uploadImage";
+import toast from "react-hot-toast";
 
 const SignUp = () => {
   const [profilePic, setProfilePic] = useState(null);
@@ -53,8 +54,10 @@ const SignUp = () => {
             adminInviteToken
           });
     
-          console.log(response);
-    
+          if(response.data.data){
+            toast.success("Signup account success")
+          }
+          
         } catch (error) {
           console.log(error);
         }
