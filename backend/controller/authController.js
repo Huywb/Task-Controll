@@ -59,7 +59,7 @@ export const loginUser = async (req, res) => {
             httpOnly: true,
             path: '/',
             secure: process.env.NODE_ENV === "production",
-            maxAge: 60 * 60 * 24 * 7
+            maxAge: 1000 * 60 * 60 * 24 * 7
         })
 
         res.status(200).json({ message: "Login success", data: { ...isMatch, token } })
