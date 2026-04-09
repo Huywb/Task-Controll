@@ -44,7 +44,7 @@ export const exportTaskReport = async(req,res)=>{
             'attachment; filename="tasks_report.xlxs"'
         )
 
-        return workbook.xlxs.write(res).then(()=>{res.end()})
+        return workbook.xlsx.write(res).then(()=>{res.end()})
     } catch (error) {
         res.status(500).json({ message: 'Error server', error })
     }

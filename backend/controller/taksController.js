@@ -3,6 +3,9 @@ import Task from "../model/Task.js"
 export const getTasks = async (req, res) => {
     try {
         const {status} = req.query
+
+        console.log('query',req.query)
+        console.log("params",status)
         let filter=  {}
 
         if(status){
@@ -25,9 +28,9 @@ export const getTasks = async (req, res) => {
 
         tasks = await Promise.all(
             tasks.map(async(task)=>{
-                const completedCount = task.todoChecklist.filter((item)=>{
+                const completedCount = task.todoCheckList?.filter((item)=>(
                     item.completed
-                }).length
+                )).length
                 return {...task._doc, completedTodoCount: completedCount}
             })
         )
@@ -54,6 +57,7 @@ export const getTasks = async (req, res) => {
         res.status(200).json({message:"Get Task success",data: {tasks, all: allTasks,pendingTasks, inProgressTasks, completedTasks}})
 
     } catch (error) {
+        console.error("FULL ERROR:", error)
         res.status(500).json({ message: 'Error server', error })
 
     }
@@ -75,7 +79,7 @@ export const getTasksById = async (req, res) => {
 }
 export const createTask = async (req, res) => {
     try {
-        const {title, description, priority, dueDate,assignedTo, attachments, todoChecklist} = req.body
+        const {title, description, priority, dueDate,assignedTo, attachments, todoCheckList} = req.body
 
         if(!Array.isArray(assignedTo)){
             return res.status(400).json({message:"assignedTo must be an array of user Id"})
@@ -88,7 +92,7 @@ export const createTask = async (req, res) => {
             dueDate,
             assignedTo,
             attachments,
-            todoChecklist,
+            todoCheckList,
             createdBy: req.user._id
         })
 
@@ -109,7 +113,7 @@ export const updateTask = async (req, res) => {
         task.description = req.body.description || task.description
         task.priority = req.body.priority || task.priority
         task.dueDate = req.body.dueDate || task.dueDate
-        task.todoChecklist = req.body.todoChecklist || task.todoChecklist
+        task.todoCheckList = req.body.todoCheckList || task.todoCheckList
         task.attachments = req.body.attachments || task.attachments
 
         if(req.body.assignedTo){
@@ -155,7 +159,7 @@ export const updateTaskStatus = async (req, res) => {
         task.status = req.body.status || task.status
 
         if(task.status === 'Completed'){
-            task.todoChecklist.forEach((item)=>(item.completed = true))
+            task.todoCheckList.forEach((item)=>(item.completed = true))
             task.progress = 100
         }
 
@@ -169,7 +173,8 @@ export const updateTaskStatus = async (req, res) => {
 }
 export const updateTaskChecklist = async (req, res) => {
     try {
-        const {todoChecklist} = req.body
+        const {todoCheckList} = req.body
+
         const task = await Task.findById(req.params.id)
 
         if(!task) return res.status(404).json({message:"Task not found"})
@@ -178,10 +183,10 @@ export const updateTaskChecklist = async (req, res) => {
             return res.status(403).json({message:"Not authorized to update checklist"})
         }
 
-        task.todoChecklist = todoChecklist
+        task.todoCheckList = todoCheckList
 
-        const completedCount = task.todoChecklist.filter((item)=>item.completed).length
-        const totalItems = task.todoChecklist.length
+        const completedCount = task.todoCheckList.filter((item)=>item.completed).length
+        const totalItems = task.todoCheckList.length
         task.progress = totalItems > 0 ? Math.round((completedCount / totalItems) * 100) : 0
 
         if(task.progress === 100){
@@ -258,6 +263,7 @@ export const getDashboardData = async (req, res) => {
 export const getUserDashboardData = async (req, res) => {
     try {
         const userId = req.user._id
+        console.log(userId)
 
         const totalTasks = await Task.countDocuments({assignedTo: userId})
         const pendingTask = await Task.countDocuments({assignedTo: userId, status: 'Pending'})
@@ -305,11 +311,11 @@ export const getUserDashboardData = async (req, res) => {
         const taskPriorityLevels = taskPriorities.reduce((acc,priority)=>{
             acc[priority] = taskPriorityLevelsRaw.find((item)=>item._id === priority)?.count || 0
             return acc
-        })
+        },{})
 
-        const recentTasks =await Task.find().sort({created: -1}).limit(10).select("title status priority dueDate createdAt")
+        const recentTasks =await Task.find({assignedTo: userId}).sort({createdAt: -1}).limit(10).select("title status priority dueDate createdAt")
+        res.status(200).json({message:"Get dashboard data success",data: {totalTasks,pendingTask,completedTask,overdueTasks, charts: {taskDistribution,taskPriorityLevels}, recentTasks}})
         
-        res.status(200).json({message:"Get dashboard data success",data: {totalTasks,pendingTask,completedTask,overdueTasks}, charts: {taskDistribution,taskPriorityLevels}, recentTasks})
     } catch (error) {
         res.status(500).json({ message: 'Error server', error })
 

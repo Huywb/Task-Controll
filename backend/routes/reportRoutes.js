@@ -4,7 +4,7 @@ import { exportTaskReport, exportUsersReport } from '../controller/reportControl
 
 const router = express.Router()
 
-router.post('/export/tasks',protect,adminOnly,exportTaskReport)
-router.post('/export/users',protect,adminOnly,exportUsersReport)
+router.get('/export/tasks',protect,adminOnly,exportTaskReport)
+router.get('/export/users',protect,adminOnly,exportUsersReport)
 
 export default router
